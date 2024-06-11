@@ -1,14 +1,12 @@
 function relativeSortArray(arr1: number[], arr2: number[]): number[] {
     const map = new Map(arr2.map((num, index) => [num, index]))
-    arr1.sort((a, b) => a - b)
     
-    map.forEach((value, key, map) =>  {
-        arr1.sort((a, b) => {
-            const orderA = map.get(a) !== undefined ? map.get(a) : Infinity;
-            const orderB = map.get(b) !== undefined ? map.get(b) : Infinity;
-            
-            return orderA - orderB;
-        })
+    arr1.sort((a, b) => {
+        const orderA = map.has(a) ? map.get(a) : 999 + a;
+        const orderB = map.has(b) ? map.get(b) : 999 + b;
+
+        return orderA - orderB;
     })
+    
     return arr1
 };
