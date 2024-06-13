@@ -5,7 +5,7 @@ function minMovesToSeat(seats: number[], students: number[]): number {
     let minMovesCount = 0
 
    for(let i = 0; i < students.length; i++){
-       minMovesCount += seats[i] > students[i] ? seats[i] - students[i] : students[i] - seats[i]
+      minMovesCount += Math.abs(seats[i] - students[i])
    }
 
     return minMovesCount
