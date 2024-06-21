@@ -1,27 +1,23 @@
-function maxSatisfied(customers: number[], grumpy: number[], minutes: number): number {
-    let alwaysSatisfied = customers.reduce((prev,curr, index) => {
-        let sum = prev
-        
-        if(grumpy[index] === 0) {
-            sum += curr
+
+const  maxSatisfied = function(customers, grumpy, minutes) {
+    let totalSatisfied = 0;
+    let additionalSatisfied = 0;
+    let maxAdditionalSatisfied = 0;
+
+    for (let i = 0; i < customers.length; i++) {
+        if (grumpy[i] === 0) {
+            totalSatisfied += customers[i];
+        } else {
+            additionalSatisfied += customers[i];
         }
-        return sum
-    }, 0)
-    let addSatisfied = 0
-    const newCustomers = customers.map((customer, idx) => {
-        if(grumpy[idx] === 0) return 0
-        return customer
-    })
-    let sum = 0
-    for(let i = 0; i < minutes; i++){
-            sum += newCustomers[i]
-    }
-    addSatisfied = sum
 
-    for(let i = minutes; i < newCustomers.length; i++) {
-        sum += newCustomers[i] - newCustomers[i - minutes]
+        if (i >= minutes) {
+            additionalSatisfied -= grumpy[i - minutes] === 1 ? customers[i - minutes] : 0;
+        }
 
-        addSatisfied = Math.max(sum, addSatisfied)
+        maxAdditionalSatisfied = Math.max(maxAdditionalSatisfied, additionalSatisfied);
     }
-    return alwaysSatisfied + addSatisfied
+
+    return totalSatisfied + maxAdditionalSatisfied;
 };
+
